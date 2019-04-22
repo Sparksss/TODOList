@@ -27,7 +27,7 @@ class Dashboard extends Component {
 
     removeTask = (taskId) => {
         Helper.removeTask(taskId);
-        const changedListOfTasks = this.state.tasks.slice().filter((task) => { return task.taskId !== taskId });
+        const changedListOfTasks = this.state.tasks.slice().filter((task) => task.taskId !== taskId);
         this.setState({ tasks: changedListOfTasks });
     };
 
@@ -35,7 +35,8 @@ class Dashboard extends Component {
         return (
             <div className="container">
                 {this.state.showCurrentTask ?
-                    <EditTask dataTask={this.state.dataTask} /> :
+                    <EditTask
+                        dataTask={this.state.dataTask} /> :
                     <div>
                         <h1>Please add new task</h1>
                         <table>
@@ -46,7 +47,14 @@ class Dashboard extends Component {
                                 <th>Delete</th>
                             </thead>
                             <tbody>
-                                <ListOfTasks tasks={this.state.tasks} />
+                                {this.state.tasks.length > 0 ?
+                                    <ListOfTasks
+                                        tasks={this.state.tasks}
+                                        showCurrentTask={this.showCurrentTask}
+                                        removeTask={this.removeTask}
+                                    /> :
+                                    <p>Please add the task</p>
+                                }
                             </tbody>
                         </table>
                     </div>

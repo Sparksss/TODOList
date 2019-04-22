@@ -20,34 +20,35 @@ class ItemTask extends Component {
     };
 
 
-    
-
-
-
     render() {
+        const {tasksId, date, title, isComplited} = this.state;
         return (
             <>
                 <td>
-                    {this.props.taskId}
+                    {tasksId}
                 </td>
                 <td>
-                    <h5 onclick={this.showCurrentTask}>{task.title}</h5>
+                    <h5 onclick={() => this.props.showCurrentTask(this.props.tasktaskId)}>{title}</h5>
                 </td>
                 <td>
-                    <p>{task.description}</p>
+                    <blockquote>{date}</blockquote>
                 </td>
                 <td>
-                    <blockquote>{task.date}</blockquote>
+                    <input type="checkbox" name="completed" value={isComplited} />
                 </td>
                 <td>
-                    <input type="checkbox" name="completed" value={task.isCompleted} />
-                </td>
-                <td>
-                    <button>Delete task</button>
+                    <button onClick={() => this.props.removeTask(tasksId)}>Delete task</button>
                 </td>
             </>
         );
     }
+
+    static defaultProps = {
+            title: '',
+            date: '',
+            description: '',
+            isCompleted: false
+    };
 };
 
 export default ItemTask;

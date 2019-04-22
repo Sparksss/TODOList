@@ -7,7 +7,11 @@ const listOfTasks = (props) => {
             {props.tasks.map((task) => {
                 return (
                     <tr>
-                        <ItemTask task={task} />
+                        <ItemTask
+                            task={task}
+                            showCurrentTask={props.showCurrentTask}
+                            removeTask={props.removeTask}
+                        />
                     </tr>
                 );
             }
