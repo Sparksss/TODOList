@@ -21,14 +21,18 @@ class Helper {
        }
    }
 
-   static saveData(data) {
+   static saveData(taskId, data) {
        if(data) {
-        localStorage.setItem('tasks', data);
+        localStorage.setItem(taskId, data);
        }   
    }
 
-   static getData() {
-       return localStorage.getItem('tasks');
+   static getData(key) {
+       return localStorage.getItem(key);
+   }
+
+   static removeTask(taskId) {
+       localStorage.removeItem(taskId);
    }
 
    // Create a string of random alphanumeric characters, of a given length

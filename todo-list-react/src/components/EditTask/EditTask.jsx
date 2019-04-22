@@ -5,6 +5,7 @@ class EditTask extends React {
     constructor(props) {
         super(props);
         this.state = {
+            taskId: this.props.taskId,
             title: this.props.task.title,
             description: this.props.task.description,
             date: this.props.task.date,
@@ -44,6 +45,7 @@ class EditTask extends React {
     }
 
     static defaultProps = {
+        taskId: 0,
         description: '',
         date: '',
         title: '',

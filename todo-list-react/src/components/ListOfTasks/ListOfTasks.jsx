@@ -1,31 +1,18 @@
 import React from 'react';
-
+import ItemTask from './ItemTask';
 
 const listOfTasks = (props) => {
     return (
-        {props.tasks.map((task) => {
+        <>
+            {props.tasks.map((task) => {
                 return (
                     <tr>
-                        <td>
-                            <h5 onclick={this.showCurrentTask}>{task.title}</h5>
-                        </td>
-                        <td>
-                            <p>{task.description}</p>
-                        </td>
-                        <td>
-                            <blockquote>{task.date}</blockquote>
-                        </td>
-                        <td>
-                            <button>Delete task</button>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="completed" value={task.isCompleted} />
-                        </td>
+                        <ItemTask task={task} />
                     </tr>
                 );
             }
-            )
-        }
+            )}
+        </>
     );
 };
 
