@@ -1,0 +1,24 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "description": "This is simple todo list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sparksss/TODOList.git"
+  },
+  "keywords": [
+    "todolist",
+    "todo",
+    "tasks"
+  ],
+  "author": "Ilya Rogatkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sparksss/TODOList/issues"
+  },
+  "homepage": "https://github.com/Sparksss/TODOList#readme"
+}
