@@ -1,4 +1,4 @@
-import React, { Component } from 'React';
+import React, { Component } from '../../../node_modules/react';
 import Helper from '../../helper';
 
 class EditTask extends Component {
@@ -23,14 +23,20 @@ class EditTask extends Component {
     };
 
     save = () => {
-        const data = {};
-        data = Object.assign(this.state, data);
-        Helper.saveData(Helper.toJson(data));
+        if(this.state.taskId) {
+            this.setState({ taskId: Helper.createRandomString(10)});
+        }
+        const data = Object.assign(this.state, {});
+        const tasks = Helper.parseJsonToObject(Helper.getData('tasks'));
+        tasks.push(this.state.taskId);
+        Helper.saveData('tasks', Helper.toJson(tasks));
+        Helper.saveData(this.state.taskId, Helper.toJson(data));
     };
 
     render() {
         return (
             <div className="EditTask">
+                <button type="button" onClick={this.props.closeEditTask}>Back to list of tasks</button>
                 <form>
                     <input type="text" name="title" value={this.state.title} onChange={this.onChangeText('title')} />
                     <input type="date" name="date" value={this.state.date} onChange={this.onChangeText('date')} />
@@ -48,9 +54,9 @@ class EditTask extends Component {
 
     static defaultProps = {
         taskId: 0,
+        title: '',
         description: '',
         date: '',
-        title: '',
         isCompleted: false
     };
 };

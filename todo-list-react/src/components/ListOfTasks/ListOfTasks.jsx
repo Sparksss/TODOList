@@ -1,7 +1,8 @@
 import React from 'react';
 import ItemTask from './ItemTask';
 
-const listOfTasks = (props) => {
+const ListOfTasks = (props) => {
+    console.log(props);
     return (
         <>
             {props.tasks.map((task) => {
@@ -20,4 +21,5 @@ const listOfTasks = (props) => {
     );
 };
 
-export default listOfTasks;
+
+export default ListOfTasks;

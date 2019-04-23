@@ -1,3 +1,8 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
 .hideDescription {
     height: 20px;
     width: 300px;

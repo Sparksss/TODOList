@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import ListOfTasks from './../../components/ListOfTasks/ListOfTasks';
-import Helper from './../../helper';
+import React, { Component } from '../../../node_modules/react';
+import ListOfTasks from '../../components/ListOfTasks/ListOfTasks';
+import Helper from '../../helper';
 import EditTask from '../../components/EditTask/EditTask';
+import './Dashboard.css';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -14,14 +15,16 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        const listOfTasks = Helper.parseJsonToObject(Helper.getData());
-        if (typeof (listOfTasks) == 'object' && listOfTasks instanceof Array) {
-            this.setState({ tasks: listOfTasks });
+        const listOfTasks = Helper.getData('tasks');
+        if (listOfTasks !== null) {
+            this.setState({ tasks: Helper.parseJsonToObject(listOfTasks) });
+        } else {
+            Helper.saveData('tasks', Helper.saveData(Helper.toJson([])));
         }
     }
 
     showCurrentTask = (taskId) => {
-        const findedTask = this.state.slice().find((task) => task.taskId == taskId);
+        const findedTask = this.state.slice().find((task) => task.taskId === taskId);
         this.setState({ dataTask: findedTask, showCurrentTask: true });
     };
 
@@ -31,30 +34,49 @@ class Dashboard extends Component {
         this.setState({ tasks: changedListOfTasks });
     };
 
+    addNewTask = () => {
+        this.setState({ dataTask: {}, showCurrentTask: true });
+    };
+
+    closeEditTask = () => {
+        this.setState({ dataTask: {}, showCurrentTask: false });
+    };
+
     render() {
+        const tableTasks = this.state.tasks.length > 0 ?
+            <ListOfTasks
+                tasks={this.state.tasks}
+                showCurrentTask={this.showCurrentTask}
+                removeTask={this.removeTask}
+            /> :
+            <tr>
+                <td></td>
+                <td></td>
+                <p>Please add the task</p>
+                <td></td>
+            </tr>
+            ;
         return (
             <div className="container">
                 {this.state.showCurrentTask ?
                     <EditTask
-                        dataTask={this.state.dataTask} /> :
+                        dataTask={this.state.dataTask}
+                        closeEditTask={this.closeEditTask}
+                    /> :
                     <div>
                         <h1>Please add new task</h1>
+                        <button type="button" onClick={this.addNewTask}>Add new task</button>
                         <table>
                             <thead>
-                                <th>Title task</th>
-                                <th>Date of creation</th>
-                                <th>Completed or not</th>
-                                <th>Delete</th>
+                                <tr>
+                                    <th>Title task</th>
+                                    <th>Date of creation</th>
+                                    <th>Completed or not</th>
+                                    <th>Delete</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                {this.state.tasks.length > 0 ?
-                                    <ListOfTasks
-                                        tasks={this.state.tasks}
-                                        showCurrentTask={this.showCurrentTask}
-                                        removeTask={this.removeTask}
-                                    /> :
-                                    <p>Please add the task</p>
-                                }
+                                {tableTasks}
                             </tbody>
                         </table>
                     </div>
@@ -63,6 +85,10 @@ class Dashboard extends Component {
 
         );
     }
+
+    static defaultProps = {
+        tasks: []
+    };
 
 };
 
