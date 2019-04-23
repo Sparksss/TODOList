@@ -31,6 +31,8 @@ class Dashboard extends Component {
     removeTask = (taskId) => {
         Helper.removeTask(taskId);
         const changedListOfTasks = this.state.tasks.slice().filter((task) => task.taskId !== taskId);
+        const changedListOfTaskIds = Helper.getData('tasks').filter((taskId) => taskId !== taskId);
+        Helper.saveData('tasks', Helper.toJson(changedListOfTaskIds));
         this.setState({ tasks: changedListOfTasks });
     };
 
