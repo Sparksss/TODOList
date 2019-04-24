@@ -29,7 +29,7 @@ class Dashboard extends Component {
     }
 
     showCurrentTask = (taskId) => {
-        const findedTask = this.state.slice().find((task) => task.taskId === taskId);
+        const findedTask = this.state.tasks.slice().find((task) => task.taskId === taskId);
         this.setState({ dataTask: findedTask, showCurrentTask: true });
     };
 

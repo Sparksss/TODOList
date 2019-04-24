@@ -23,12 +23,8 @@ class EditTask extends Component {
         this.setState({ isCompleted: event.target.checked });
     };
 
-    save = () => {
-        let newTaskId = this.state.taskId;
-        if(!newTaskId) {
-            newTaskId = Helper.createRandomString(10);
-            this.setState({ taskId: newTaskId});
-        }
+    saveNew = () => {
+        const newTaskId = newTaskId = Helper.createRandomString(10);
         const data = Object.assign(this.state, {});
         data.taskId = newTaskId;
         const tasks = Helper.parseJsonToObject(Helper.getData('tasks'));
@@ -38,7 +34,14 @@ class EditTask extends Component {
         this.props.closeEditTask();
     };
 
+    editTask = () => {
+        const data = Object.assign(this.state, {});
+        Helper.saveData(this.state.taskId, Helper.toJson(data));
+        this.props.closeEditTask();
+    };
+
     render() {
+        const saveTask = this.state.taskId ? this.editTask : this.saveNew;
         return (
             <div className="EditTask">
                 <button type="button" onClick={this.props.closeEditTask}>Back to list of tasks</button>
@@ -51,7 +54,7 @@ class EditTask extends Component {
                     <input type="checkbox" name="isCompleted" checked={this.state.isCompleted}
                         onChange={this.onCheckChange}
                     />
-                    <button type="button" onClick={this.save}>Save</button>
+                    <button type="button" onClick={this.saveTask}>Save</button>
                 </form>
             </div>
         );
