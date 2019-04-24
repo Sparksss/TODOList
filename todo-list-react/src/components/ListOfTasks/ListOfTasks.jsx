@@ -1,13 +1,12 @@
-import React from 'react';
+import React from '../../../node_modules/react';
 import ItemTask from './ItemTask';
 
 const ListOfTasks = (props) => {
-    console.log(props);
     return (
         <>
             {props.tasks.map((task) => {
                 return (
-                    <tr>
+                    <tr key={task.taskId}>
                         <ItemTask
                             task={task}
                             showCurrentTask={props.showCurrentTask}

@@ -15,11 +15,16 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        const listOfTasks = Helper.getData('tasks');
+        let listOfTasks = Helper.getData('tasks');
+        listOfTasks = Helper.parseJsonToObject(listOfTasks);
         if (listOfTasks !== null) {
-            this.setState({ tasks: Helper.parseJsonToObject(listOfTasks) });
+            const dataOfTasks = [];
+            for(let i = 0, size = listOfTasks.length;i < size; i++ ) {
+                dataOfTasks.push(Helper.getData(listOfTasks[i]));
+            }
+            this.setState({ tasks: dataOfTasks});
         } else {
-            Helper.saveData('tasks', Helper.saveData(Helper.toJson([])));
+            Helper.saveData('tasks', Helper.toJson([]));
         }
     }
 

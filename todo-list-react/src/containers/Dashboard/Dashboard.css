@@ -3,6 +3,10 @@
     justify-content: center;
 }
 
+.container table {
+    border: 1px solid black;
+}
+
 .hideDescription {
     height: 20px;
     width: 300px;

@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../node_modules/react';
 import Helper from '../../helper';
 
 class ItemTask extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            title: this.props.title,
-            description: this.props.description,
-            date: this.props.date,
-            isCompleted: this.props.isCompleted
+            taskId: this.props.task.taskId,
+            title: this.props.task.title,
+            description: this.props.task.description,
+            date: this.props.task.date,
+            isCompleted: this.props.task.isCompleted
         };
+
+        console.log(this.state);
     }
 
     onChangeChecked = (event, taskId) => {
@@ -21,33 +23,30 @@ class ItemTask extends Component {
 
 
     render() {
-        const {tasksId, date, title, isComplited} = this.state;
+        console.log(this.state.taskId, this.state.title, 'state of ItemTask');
         return (
             <>
                 <td>
-                    {tasksId}
+                    <h5 onClick={() => this.props.showCurrentTask(this.state.taskId)}>{this.state.title}</h5>
                 </td>
                 <td>
-                    <h5 onclick={() => this.props.showCurrentTask(this.props.tasktaskId)}>{title}</h5>
+                    <blockquote>{this.state.date}</blockquote>
                 </td>
                 <td>
-                    <blockquote>{date}</blockquote>
+                    <input type="checkbox" name="isCompleted" value={this.state.isComplited} />
                 </td>
                 <td>
-                    <input type="checkbox" name="completed" value={isComplited} />
-                </td>
-                <td>
-                    <button onClick={() => this.props.removeTask(tasksId)}>Delete task</button>
+                    <button onClick={() => this.props.removeTask(this.state.taskId)}>Delete task</button>
                 </td>
             </>
         );
     }
 
     static defaultProps = {
-            title: '',
-            date: '',
-            description: '',
-            isCompleted: false
+        title: '',
+        date: '',
+        description: '',
+        isCompleted: false
     };
 };
 

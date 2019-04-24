@@ -1,15 +1,16 @@
 import React, { Component } from '../../../node_modules/react';
 import Helper from '../../helper';
+import './EditTask';
 
 class EditTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            taskId: this.props.taskId,
-            title: this.props.task.title,
-            description: this.props.task.description,
-            date: this.props.task.date,
-            isCompleted: this.props.task.isCompleted
+            taskId: this.props.dataTask.taskId,
+            title: this.props.dataTask.title,
+            description: this.props.dataTask.description,
+            date: this.props.dataTask.date,
+            isCompleted: this.props.dataTask.isCompleted
         };
     }
 
@@ -23,14 +24,18 @@ class EditTask extends Component {
     };
 
     save = () => {
-        if(this.state.taskId) {
-            this.setState({ taskId: Helper.createRandomString(10)});
+        let newTaskId = this.state.taskId;
+        if(!newTaskId) {
+            newTaskId = Helper.createRandomString(10);
+            this.setState({ taskId: newTaskId});
         }
         const data = Object.assign(this.state, {});
+        data.taskId = newTaskId;
         const tasks = Helper.parseJsonToObject(Helper.getData('tasks'));
-        tasks.push(this.state.taskId);
+        tasks.push(newTaskId);
         Helper.saveData('tasks', Helper.toJson(tasks));
-        Helper.saveData(this.state.taskId, Helper.toJson(data));
+        Helper.saveData(newTaskId, Helper.toJson(data));
+        this.props.closeEditTask();
     };
 
     render() {
