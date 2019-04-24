@@ -20,7 +20,7 @@ class Dashboard extends Component {
         if (listOfTasks !== null) {
             const dataOfTasks = [];
             for(let i = 0, size = listOfTasks.length;i < size; i++ ) {
-                dataOfTasks.push(Helper.getData(listOfTasks[i]));
+                dataOfTasks.push(Helper.parseJsonToObject(Helper.getData(listOfTasks[i])));
             }
             this.setState({ tasks: dataOfTasks});
         } else {
@@ -36,7 +36,7 @@ class Dashboard extends Component {
     removeTask = (taskId) => {
         Helper.removeTask(taskId);
         const changedListOfTasks = this.state.tasks.slice().filter((task) => task.taskId !== taskId);
-        const changedListOfTaskIds = Helper.getData('tasks').filter((taskId) => taskId !== taskId);
+        const changedListOfTaskIds =  Helper.parseJsonToObject(Helper.getData('tasks')).filter((taskId) => taskId !== taskId);
         Helper.saveData('tasks', Helper.toJson(changedListOfTaskIds));
         this.setState({ tasks: changedListOfTasks });
     };

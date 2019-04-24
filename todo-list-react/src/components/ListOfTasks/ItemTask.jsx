@@ -12,8 +12,6 @@ class ItemTask extends Component {
             date: this.props.task.date,
             isCompleted: this.props.task.isCompleted
         };
-
-        console.log(this.state);
     }
 
     onChangeChecked = (event, taskId) => {
@@ -23,7 +21,6 @@ class ItemTask extends Component {
 
 
     render() {
-        console.log(this.state.taskId, this.state.title, 'state of ItemTask');
         return (
             <>
                 <td>
