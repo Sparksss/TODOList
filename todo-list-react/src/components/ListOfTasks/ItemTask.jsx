@@ -25,7 +25,7 @@ class ItemTask extends Component {
     render() {
         return (
             <>
-                <td>
+                <td className="SelectTask">
                     <h5 onClick={() => this.props.showCurrentTask(this.state.taskId)}>{this.state.title}</h5>
                 </td>
                 <td>

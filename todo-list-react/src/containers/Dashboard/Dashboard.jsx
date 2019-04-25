@@ -12,25 +12,50 @@ class Dashboard extends Component {
             dataTask: null,
             showCurrentTask: false
         };
+
+        this.doOrder = false;
     }
-    
+
 
     getAllTasks = () => {
         let listOfTasks = Helper.getData('tasks');
+        this.doOrder = false;
         listOfTasks = Helper.parseJsonToObject(listOfTasks);
         if (listOfTasks !== null) {
             const dataOfTasks = [];
-            for(let i = 0, size = listOfTasks.length;i < size; i++ ) {
+            for (let i = 0, size = listOfTasks.length; i < size; i++) {
                 dataOfTasks.push(Helper.parseJsonToObject(Helper.getData(listOfTasks[i])));
             }
-            this.setState({ tasks: dataOfTasks, dataTask: null, showCurrentTask: false});
+            this.setState({ tasks: dataOfTasks, dataTask: null, showCurrentTask: false });
         } else {
             Helper.saveData('tasks', Helper.toJson([]));
         }
     };
 
+    sortByTitle = () => {
+        const copyTasks = this.state.tasks.slice();
+        if(this.doOrder) {
+            copyTasks.reverse();
+            return this.setState({tasks: copyTasks});
+        }
+        copyTasks.sort((a, b) => {
+            const nameA = a.title.toLowerCase();
+            const nameB = b.title.toLowerCase();
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+
+        this.doOrder = true;
+        this.setState({tasks: copyTasks });
+    };
+
     componentDidMount() {
-       this.getAllTasks();
+        this.getAllTasks();
     }
 
     showCurrentTask = (taskId) => {
@@ -41,7 +66,7 @@ class Dashboard extends Component {
     removeTask = (taskId) => {
         Helper.removeTask(taskId);
         const changedListOfTasks = this.state.tasks.slice().filter((task) => task.taskId !== taskId);
-        const changedListOfTaskIds =  Helper.parseJsonToObject(Helper.getData('tasks')).filter((taskId) => taskId !== taskId);
+        const changedListOfTaskIds = Helper.parseJsonToObject(Helper.getData('tasks')).filter((taskId) => taskId !== taskId);
         Helper.saveData('tasks', Helper.toJson(changedListOfTaskIds));
         this.setState({ tasks: changedListOfTasks });
     };
@@ -56,11 +81,11 @@ class Dashboard extends Component {
 
     removeAllTasks = () => {
         const listOfTasks = Helper.parseJsonToObject(Helper.getData('tasks'));
-        for(let i = listOfTasks.length; i > -1; i--) {
+        for (let i = listOfTasks.length; i > -1; i--) {
             Helper.removeTask(listOfTasks[i]);
         }
         Helper.saveData('tasks', Helper.toJson([]));
-        this.setState({tasks: []});
+        this.setState({ tasks: [] });
     };
 
     render() {
@@ -88,11 +113,11 @@ class Dashboard extends Component {
                     <div>
                         <h1>Todo list</h1>
                         <button type="button" onClick={this.addNewTask} className="AddButton">Add new task</button>
-                        {this.state.tasks.length > 0? <button onClick={this.removeAllTasks}>Remove all tasks</button> : ''}
+                        {this.state.tasks.length > 0 ? <button onClick={this.removeAllTasks}>Remove all tasks</button> : ''}
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Title task</th>
+                                    <th onClick={this.sortByTitle} className="OrderSelect">Title task</th>
                                     <th>Date of creation</th>
                                     <th>Completed or not</th>
                                     <th>Delete</th>

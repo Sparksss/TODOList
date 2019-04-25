@@ -12,13 +12,12 @@
     border: 1px solid black;
 }
 
-.hideDescription {
-    height: 20px;
-    width: 300px;
-    overflow: hidden;
+
+.SelectTask:hover {
+    background-color: #A9A9A9;
+    border-radius: 4px;
 }
 
-
-.showDescription {
-   
+.OrderSelect:hover {
+    background-color: aqua;
 }
