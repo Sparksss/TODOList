@@ -14,9 +14,11 @@ class ItemTask extends Component {
         };
     }
 
-    onChangeChecked = (event, taskId) => {
+    onChangeChecked = (event) => {
+        const data = Object.assign({}, this.state);
+        data.isCompleted = event.target.checked;
+        Helper.saveData(this.state.taskId, Helper.toJson(data));
         this.setState({ isCompleted: event.target.checked });
-        Helper.saveData(taskId, Helper.toJson(this.state));
     };
 
 
@@ -30,7 +32,7 @@ class ItemTask extends Component {
                     <blockquote>{this.state.date}</blockquote>
                 </td>
                 <td>
-                    <input type="checkbox" name="isCompleted" value={this.state.isComplited} />
+                    <input type="checkbox" name="isCompleted" checked={this.state.isCompleted} onChange={this.onChangeChecked}/>
                 </td>
                 <td>
                     <button onClick={() => this.props.removeTask(this.state.taskId)}>Delete task</button>

@@ -9,12 +9,13 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             tasks: [],
-            dataTask: {},
+            dataTask: null,
             showCurrentTask: false
         };
     }
+    
 
-    componentDidMount() {
+    getAllTasks = () => {
         let listOfTasks = Helper.getData('tasks');
         listOfTasks = Helper.parseJsonToObject(listOfTasks);
         if (listOfTasks !== null) {
@@ -22,10 +23,14 @@ class Dashboard extends Component {
             for(let i = 0, size = listOfTasks.length;i < size; i++ ) {
                 dataOfTasks.push(Helper.parseJsonToObject(Helper.getData(listOfTasks[i])));
             }
-            this.setState({ tasks: dataOfTasks});
+            this.setState({ tasks: dataOfTasks, dataTask: null, showCurrentTask: false});
         } else {
             Helper.saveData('tasks', Helper.toJson([]));
         }
+    };
+
+    componentDidMount() {
+       this.getAllTasks();
     }
 
     showCurrentTask = (taskId) => {
@@ -46,7 +51,16 @@ class Dashboard extends Component {
     };
 
     closeEditTask = () => {
-        this.setState({ dataTask: {}, showCurrentTask: false });
+        this.setState({ dataTask: null, showCurrentTask: false });
+    };
+
+    removeAllTasks = () => {
+        const listOfTasks = Helper.parseJsonToObject(Helper.getData('tasks'));
+        for(let i = listOfTasks.length; i > -1; i--) {
+            Helper.removeTask(listOfTasks[i]);
+        }
+        Helper.saveData('tasks', Helper.toJson([]));
+        this.setState({tasks: []});
     };
 
     render() {
@@ -58,8 +72,8 @@ class Dashboard extends Component {
             /> :
             <tr>
                 <td></td>
+                <td><p>Please add the task</p></td>
                 <td></td>
-                <p>Please add the task</p>
                 <td></td>
             </tr>
             ;
@@ -69,10 +83,12 @@ class Dashboard extends Component {
                     <EditTask
                         dataTask={this.state.dataTask}
                         closeEditTask={this.closeEditTask}
+                        getAllTasks={this.getAllTasks}
                     /> :
                     <div>
-                        <h1>Please add new task</h1>
-                        <button type="button" onClick={this.addNewTask}>Add new task</button>
+                        <h1>Todo list</h1>
+                        <button type="button" onClick={this.addNewTask} className="AddButton">Add new task</button>
+                        {this.state.tasks.length > 0? <button onClick={this.removeAllTasks}>Remove all tasks</button> : ''}
                         <table>
                             <thead>
                                 <tr>

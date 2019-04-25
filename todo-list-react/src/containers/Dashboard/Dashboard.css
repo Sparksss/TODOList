@@ -3,6 +3,11 @@
     justify-content: center;
 }
 
+.container .AddButton {
+    margin-right: 50px;
+    margin-bottom: 20px;
+}
+
 .container table {
     border: 1px solid black;
 }
